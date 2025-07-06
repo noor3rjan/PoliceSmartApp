@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import '../helpers/auth_helper.dart';
 import 'login_screen.dart';
+import 'emergency_report_screen.dart'; // ✅ استدعاء شاشة الطوارئ
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   void logout(BuildContext context) async {
-    final box = await AuthHelper.logout();
+    await AuthHelper.logout();
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => const LoginScreen()),
@@ -78,11 +79,21 @@ class HomeScreen extends StatelessWidget {
           const SizedBox(height: 10),
           Expanded(
             child: ListView(
-              children: const [
-                DashboardTile(title: "الأحداث", subtitle: "Posts", icon: Icons.article),
-                DashboardTile(title: "الطلاع الطارئ", subtitle: "Emergency Report", icon: Icons.local_hospital),
-                DashboardTile(title: "الدوريات", subtitle: "Patrols", icon: Icons.location_on),
-                DashboardTile(title: "الجرائم السيبرانية", subtitle: "Cyber Crimes", icon: Icons.shield),
+              children: [
+                const DashboardTile(title: "الأحداث", subtitle: "Posts", icon: Icons.article),
+                DashboardTile(
+                  title: "الطلاع الطارئ",
+                  subtitle: "Emergency Report",
+                  icon: Icons.local_hospital,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const EmergencyReportScreen()),
+                    );
+                  },
+                ),
+                const DashboardTile(title: "الدوريات", subtitle: "Patrols", icon: Icons.location_on),
+                const DashboardTile(title: "الجرائم السيبرانية", subtitle: "Cyber Crimes", icon: Icons.shield),
               ],
             ),
           ),
@@ -96,12 +107,14 @@ class DashboardTile extends StatelessWidget {
   final String title;
   final String subtitle;
   final IconData icon;
+  final VoidCallback? onTap;
 
   const DashboardTile({
     super.key,
     required this.title,
     required this.subtitle,
     required this.icon,
+    this.onTap,
   });
 
   @override
@@ -113,9 +126,7 @@ class DashboardTile extends StatelessWidget {
         title: Text(title, textAlign: TextAlign.right),
         subtitle: Text(subtitle, textAlign: TextAlign.right),
         trailing: const Icon(Icons.arrow_forward_ios),
-        onTap: () {
-          // TODO: Add navigation logic
-        },
+        onTap: onTap ?? () {}, // تشغيل onTap إذا موجودة
       ),
     );
   }

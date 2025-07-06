@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../helpers/auth_helper.dart';
 import 'login_screen.dart';
-import 'emergency_report_screen.dart'; // ✅ استدعاء شاشة الطوارئ
+import 'emergency_report_screen.dart';
+import 'posts_screen.dart'; // ✅ استدعاء شاشة الأحداث
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -80,7 +81,17 @@ class HomeScreen extends StatelessWidget {
           Expanded(
             child: ListView(
               children: [
-                const DashboardTile(title: "الأحداث", subtitle: "Posts", icon: Icons.article),
+                DashboardTile(
+                  title: "الأحداث",
+                  subtitle: "Posts",
+                  icon: Icons.article,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const PostsScreen()),
+                    );
+                  },
+                ),
                 DashboardTile(
                   title: "الطلاع الطارئ",
                   subtitle: "Emergency Report",

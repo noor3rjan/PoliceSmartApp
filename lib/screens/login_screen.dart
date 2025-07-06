@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'home_screen.dart';  // استدعاء شاشة الداشبورد
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -15,12 +16,21 @@ class _LoginScreenState extends State<LoginScreen> {
     String email = emailController.text.trim();
     String password = passwordController.text.trim();
 
-    // ⛔️ مبدأيًا فحص بسيط (لاحقًا نربطه بقاعدة بيانات)
-    if (email == "noor" && password == "123123") {
-      Navigator.pushReplacementNamed(context, '/home');
+    // الحسابات المقبولة
+    final users = {
+      'noor': '123123',
+      'mohammad': '12341234',
+      'ahmad': '1234512345',
+    };
+
+    if (users.containsKey(email) && users[email] == password) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("كلمة المرور أو اسم المستخدم غير صحيح")),
+        const SnackBar(content: Text("❌ اسم المستخدم أو كلمة المرور غير صحيحة")),
       );
     }
   }

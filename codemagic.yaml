@@ -1,11 +1,11 @@
 workflows:
-  build-apk:
-    name: Build APK
-    max_build_duration: 10
+  default-workflow:
+    name: Default Workflow
+    max_build_duration: 20
     environment:
       flutter: stable
     scripts:
-      - name: Get dependencies
+      - name: Install dependencies
         script: flutter pub get
       - name: Build APK
         script: flutter build apk --release

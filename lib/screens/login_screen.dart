@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'home_screen.dart';  // استدعاء شاشة الداشبورد
+import 'home_screen.dart';
+import '../helpers/auth_helper.dart'; // ✅ استدعاء ملف المساعد
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -12,27 +13,41 @@ class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  void handleLogin() {
+  final users = {
+    'noor': '123123',
+    'mohammad': '12341234',
+    'ahmad': '1234512345',
+  };
+
+  void handleLogin() async {
     String email = emailController.text.trim();
     String password = passwordController.text.trim();
 
-    // الحسابات المقبولة
-    final users = {
-      'noor': '123123',
-      'mohammad': '12341234',
-      'ahmad': '1234512345',
-    };
-
-    if (users.containsKey(email) && users[email] == password) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
-      );
-    } else {
+    if (!users.containsKey(email) || users[email] != password) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("❌ اسم المستخدم أو كلمة المرور غير صحيحة")),
       );
+      return;
     }
+
+    bool authorized = await AuthHelper.isAuthorized(email);
+
+    if (!authorized) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("⚠️ هذا الحساب مربوط بجهاز آخر. تواصل مع مدير النظام لإعادة التعيين."),
+        ),
+      );
+      return;
+    }
+
+    // ✅ حفظ معلومات الدخول على هذا الجهاز لأول مرة
+    await AuthHelper.saveLogin(email);
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const HomeScreen()),
+    );
   }
 
   @override

@@ -3,7 +3,8 @@ import '../helpers/auth_helper.dart';
 import 'login_screen.dart';
 import 'emergency_report_screen.dart';
 import 'posts_screen.dart';
-import 'patrols_screen.dart'; // ✅ استدعاء شاشة الدوريات
+import 'patrols_screen.dart';
+import 'cyber_crime_screen.dart'; // ✅ استدعاء شاشة السايبر
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -115,10 +116,16 @@ class HomeScreen extends StatelessWidget {
                     );
                   },
                 ),
-                const DashboardTile(
+                DashboardTile(
                   title: "الجرائم السيبرانية",
                   subtitle: "Cyber Crimes",
                   icon: Icons.shield,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const CyberCrimeScreen()),
+                    );
+                  },
                 ),
               ],
             ),

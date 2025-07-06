@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import '../helpers/auth_helper.dart';
 import 'login_screen.dart';
 import 'emergency_report_screen.dart';
-import 'posts_screen.dart'; // ✅ استدعاء شاشة الأحداث
+import 'posts_screen.dart';
+import 'patrols_screen.dart'; // ✅ استدعاء شاشة الدوريات
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -103,8 +104,22 @@ class HomeScreen extends StatelessWidget {
                     );
                   },
                 ),
-                const DashboardTile(title: "الدوريات", subtitle: "Patrols", icon: Icons.location_on),
-                const DashboardTile(title: "الجرائم السيبرانية", subtitle: "Cyber Crimes", icon: Icons.shield),
+                DashboardTile(
+                  title: "الدوريات",
+                  subtitle: "Patrols",
+                  icon: Icons.location_on,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const PatrolsScreen()),
+                    );
+                  },
+                ),
+                const DashboardTile(
+                  title: "الجرائم السيبرانية",
+                  subtitle: "Cyber Crimes",
+                  icon: Icons.shield,
+                ),
               ],
             ),
           ),
@@ -137,7 +152,7 @@ class DashboardTile extends StatelessWidget {
         title: Text(title, textAlign: TextAlign.right),
         subtitle: Text(subtitle, textAlign: TextAlign.right),
         trailing: const Icon(Icons.arrow_forward_ios),
-        onTap: onTap ?? () {}, // تشغيل onTap إذا موجودة
+        onTap: onTap ?? () {},
       ),
     );
   }

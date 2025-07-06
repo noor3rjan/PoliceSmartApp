@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
+import '../helpers/auth_helper.dart';
+import 'login_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
+
+  void logout(BuildContext context) async {
+    final box = await AuthHelper.logout();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +24,13 @@ class HomeScreen extends StatelessWidget {
           style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () => logout(context),
+            tooltip: "تسجيل الخروج",
+          ),
+        ],
       ),
       body: Column(
         children: [

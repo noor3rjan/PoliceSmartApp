@@ -4,7 +4,8 @@ import 'login_screen.dart';
 import 'emergency_report_screen.dart';
 import 'posts_screen.dart';
 import 'patrols_screen.dart';
-import 'cyber_crime_screen.dart'; // ✅ استدعاء شاشة السايبر
+import 'cyber_crime_screen.dart';
+import 'profile_screen.dart'; // ✅ شاشة الملف الشخصي
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -83,6 +84,17 @@ class HomeScreen extends StatelessWidget {
           Expanded(
             child: ListView(
               children: [
+                DashboardTile(
+                  title: "الملف الشخصي",
+                  subtitle: "Profile",
+                  icon: Icons.person,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const ProfileScreen()),
+                    );
+                  },
+                ),
                 DashboardTile(
                   title: "الأحداث",
                   subtitle: "Posts",

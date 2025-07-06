@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 
-class PostsScreen extends StatelessWidget {
+class PostsScreen extends StatefulWidget {
   const PostsScreen({super.key});
 
-  final List<Map<String, dynamic>> posts = const [
+  @override
+  State<PostsScreen> createState() => _PostsScreenState();
+}
+
+class _PostsScreenState extends State<PostsScreen> {
+  List<Map<String, dynamic>> posts = [
     {
       'sender': 'الملازم نور الدين',
       'type': 'إدارة',
@@ -16,13 +21,52 @@ class PostsScreen extends StatelessWidget {
       'content': 'تم الإبلاغ عن مركبة مشبوهة في شارع الوحدة.',
       'time': 'منذ 12 دقيقة',
     },
-    {
-      'sender': 'الرائد ليلى عامر',
-      'type': 'إدارة',
-      'content': 'اجتماع طارئ اليوم الساعة 3:00 في مقر القيادة.',
-      'time': 'قبل ساعة',
-    },
   ];
+
+  final TextEditingController postController = TextEditingController();
+
+  void addPost() {
+    String content = postController.text.trim();
+    if (content.isNotEmpty) {
+      setState(() {
+        posts.insert(0, {
+          'sender': 'أنت (فرد)',
+          'type': 'فرد',
+          'content': content,
+          'time': 'الآن',
+        });
+      });
+      postController.clear();
+      Navigator.pop(context);
+    }
+  }
+
+  void openPostDialog() {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text("إضافة منشور جديد"),
+        content: TextField(
+          controller: postController,
+          maxLines: 5,
+          decoration: const InputDecoration(
+            hintText: "اكتب تفاصيل المنشور هنا...",
+            border: OutlineInputBorder(),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("إلغاء"),
+          ),
+          ElevatedButton(
+            onPressed: addPost,
+            child: const Text("نشر"),
+          ),
+        ],
+      ),
+    );
+  }
 
   Color getColor(String type) {
     return type == "إدارة" ? Colors.blue.shade100 : Colors.grey.shade200;
@@ -34,6 +78,13 @@ class PostsScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text("الأحداث"),
         backgroundColor: const Color(0xff0c2340),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            tooltip: "منشور جديد",
+            onPressed: openPostDialog,
+          )
+        ],
       ),
       body: ListView.builder(
         itemCount: posts.length,

@@ -1,14 +1,14 @@
 workflows:
   android-workflow:
-    name: Build Android APK Only
+    name: Build APK for PoliceSmart
+    max_build_duration: 10
     environment:
       flutter: stable
+      xcode: latest  # هذا سيتجاهل لأنه ما بنبني iOS
     scripts:
-      - name: Get Flutter dependencies
+      - name: Get dependencies
         script: flutter pub get
-
-      - name: Build release APK
+      - name: Build APK
         script: flutter build apk --release
-
     artifacts:
       - build/app/outputs/flutter-apk/app-release.apk

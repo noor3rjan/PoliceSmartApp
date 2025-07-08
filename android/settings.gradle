@@ -1,2 +1,1 @@
-rootProject.name = 'policesmart'
-include ':app'
+rootProject.name = 'PoliceSmart'

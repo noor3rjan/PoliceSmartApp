@@ -1,1 +1,2 @@
-include ':app'// placeholder
+include ':app'
+rootProject.name = 'PoliceSmart'
